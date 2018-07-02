@@ -9,13 +9,19 @@ import { HttpClient } from '@angular/common/http';
 
 export class AppComponent implements OnInit {
   title = 'Shopping';
-  results = {};
+  results = [];
   products = [];
-
+  cart = [];
+  addtoCart = function(item){
+    alert(item.name + " was added to cart for $" + item.price);
+    this.cart.push(item);
+  }
 
   constructor(private http: HttpClient){
 
   }
+
+  
 
   ngOnInit() : void {
     interface Product {
@@ -25,7 +31,7 @@ export class AppComponent implements OnInit {
     }
 
     this.http.get<Product>('http://localhost:51276/api/Products').subscribe(data => {
-      this.results = data;
+      for(let i in data) this.results.push(data[i]);
     });
   }
 }
